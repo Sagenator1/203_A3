@@ -1,6 +1,6 @@
 ---
 title: "Homework 3 analysis"
-author: "rachel torres"
+author: "Sage Davis"
 date: "11/9/2021"
 output: html_document
 ---
@@ -22,15 +22,15 @@ library(latex2exp)
 
 Some Hints: 
 
-- The total amount of groundwater use (outputs) is provided in the Groundwater label. It was __ in the year 2000 according to Figure 2, and will be __ in the year 2050 under BAU 5 assumptions, according to Figure 4.
+- The total amount of groundwater use (outputs) is provided in the Groundwater label. It was 18.2 in the year 2000 according to Figure 2, and will be 27 in the year 2050 under BAU 5 assumptions, according to Figure 4.
 - The net change in groundwater in 2000 is the Chg in groundwater storage. It was __ according to Figure 2, meaning that groundwater levels declined in 2000. You can find the 2050 estimate for net change in groundwater in Figure 4.
-- The net change in groundwater is equal to the inputs minus the outputs. Because Figures 2 and 4 provide us with the net change in groundwater and the outputs (withdrawals), you can solve for inputs. In 2000, these inputs were __ - __ = __ (cf.Figure 2) 
+- The net change in groundwater is equal to the inputs minus the outputs. Because Figures 2 and 4 provide us with the net change in groundwater and the outputs (withdrawals), you can solve for inputs. In 2000, these inputs were 18.2 - 5.4  = 12.8 (cf.Figure 2) 
 
 ```{r fig2}
 
-out00 = __
-chng00 = __
-in00 =  __
+out00 = 18.2
+chng00 = -5.4
+in00 =  out00 + chng00
 in00
 
 ```
@@ -39,9 +39,9 @@ in00
 
 ```{r fig4}
 
-out50 = __
-chng50 = __
-in50 = __
+out50 = 27
+chng50 = -16.7
+in50 = out50 + chng50
 in50
 
 ```
@@ -54,12 +54,12 @@ year <- c(2000, 2050)
 
 # trend line for inputs
 in_trend <- c(in00, in50)
-in_lm <- lm(__ ~ __)
+in_lm <- lm(in_trend ~ year)
 in_lm
 
 # trend line for outputs
 out_trend <- c(out00, out50)
-out_lm <- lm(__ ~ __)
+out_lm <- lm(out_trend ~ year)
 out_lm
 ```
 
@@ -69,8 +69,8 @@ years <- seq(from=2000, to=2050, by=1)
 massbal <- as.data.frame(years)
 
 # use the equation from lm to fill in columns for ins and outs
-massbal$ins = __
-massbal$outs = __
+massbal$ins = (-0.05)*massbal$years + 112.8
+massbal$outs = (0.176)*massbal$years - 333.8
 
 head(massbal)
 ```
@@ -79,16 +79,16 @@ head(massbal)
 ```{r}
 # plot the ins and outs over the years - what will happen to storage based on these trends?
 ggplot(massbal) + 
-  geom_line(aes(x=__, y=__, col='Input')) +
-  geom_line(aes(x=__, y=__, col='Output')) +
+  geom_line(aes(x=years, y=ins, col='Input')) +
+  geom_line(aes(x=years, y=outs, col='Output')) +
   xlab("Year") + 
   ylab(TeX("Groundwater flux ($10^9$ $m^3$)")) + 
   theme(legend.title = element_blank())
 
 # can do mass balance for each year to see the changes 
-massbal$chnge = massbal$__ - massbal$__
+massbal$chnge = massbal$ins - massbal$outs
 ggplot(massbal) + 
-  geom_line(aes(x=__, y=__)) +
+  geom_line(aes(x=years, y=chnge)) +
   xlab("Year") + 
   ylab(TeX("Change in groundwater ($10^9$ $m^3$)"))
 
@@ -117,9 +117,9 @@ water_lost <- function(year){
 massbal$w_lost <- sapply(massbal$years, water_lost)
 
 # create columns for the average, lower bounds, and upper bouds
-massbal$gw_storage = massbal$w_lost + __
-massbal$gw_low = massbal$w_lost + __
-massbal$gw_upp = massbal$w_lost + __
+massbal$gw_storage = massbal$w_lost + 350
+massbal$gw_low = massbal$w_lost + 190
+massbal$gw_upp = massbal$w_lost + 550
 
 head(massbal)
 
@@ -133,9 +133,9 @@ head(massbal)
 # example plot which we don't need to show - not the nicest
 ggplot(massbal) + 
   geom_rect(aes(ymin=-Inf, ymax=0, xmin=2000, xmax=2050), alpha = 0.02, fill='red') +
-  geom_line(aes(x=__, y=__, col='Average')) +
-  geom_line(aes(x=__, y=__, col='Bounds'), linetype='dashed') + 
-  geom_line(aes(x=__, y=__, col='Bounds'), linetype='dashed') +
+  geom_line(aes(x=years, y=gw_storage, col='Average')) +
+  geom_line(aes(x=years, y=gw_low, col='Lower Bounds'), linetype='dashed') + 
+  geom_line(aes(x=years, y=gw_upp, col='Upper Bounds'), linetype='dashed') +
   xlab("Year") + 
   ylab(TeX("Groundwater stoarge ($10^9$ $m^3$)")) + 
   theme(legend.title = element_blank()) + 
