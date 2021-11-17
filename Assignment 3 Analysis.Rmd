@@ -22,10 +22,6 @@ I performed a detailed analysis of the publication, "Visualizing A Stochastic Mo
   
 
 
-
-
-
-
 ```{r echo = FALSE, warning = FALSE, comment = FALSE}
 # 1. Set up a simple mass balance model of groundwater driven by inputs and outputs.
 
