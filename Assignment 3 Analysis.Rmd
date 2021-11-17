@@ -18,10 +18,8 @@ library(latex2exp)
 I performed a detailed analysis of the publication, "Visualizing A Stochastic Model of California Water Resources Using Sankey Diagrams" (Curmi et al. 2013), I gathered the groundwater inputs and outputs for 2000 and the projections for 2050.  Using these values I created a simple net mass balance for the net change in groundwater at year 2000 and 2050. This net groundwater change equals the inputs minus the outputs.  I used the data analysis software called R to perform my analysis.  The input and output values were put into to a liner model (regression) for years 2000 to 2050. The results of the regression was used to calculate the change in the groundwater storage each year. 
   Using the values on Figure 7 (Curmi et al. 2013), of an approximate average groundwater resource in 2000 of *350x10^9 m3*. I made an educated assumption that the uncertainty exhibits a normal distribution around that mean value with a *115x10^9 m3* standard distribution.  Using the mean and standard deviation on a normal distribution, there is a 90% chance that the that the actual amount of California groundwater lies between the approximate lower limit of *190x10^9 m3* and approximate upper limit of *550x10^9 m3*
   
-  The net groundwater storage was then calculated for 2000 to 2050.
+  The net groundwater storage was then calculated for 2000 to 2050.  Git
 
-From Curmi et al., Figure 7, assume that the expected value of groundwater resources in 2000 was *350x10^9 m3*. Let's further assume that uncertainty regarding this value follows a normal distribution around that mean value, with a standard deviation of 115x109 m3. 
- - Based on a normal distribution with this mean and standard deviation, there is a 90% chance that the actual amount of groundwater in CA is somewhere between the approximate lower limit of *190x10^9 m3* and an approximate upper limit of *550x10^9 m3*.
 
 
 
